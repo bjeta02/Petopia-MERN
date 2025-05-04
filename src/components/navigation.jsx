@@ -48,12 +48,13 @@ export const Navigation = () => {
   const handleLogout = async () => {
     const token = localStorage.getItem('token');
     try {
-      await fetch('http://localhost:5000/api/auth/logout', {
+      await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/auth/logout`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      
       localStorage.removeItem('token');
       setUserInfo({ userId: null, ownerId: null, clinicId: null, role: null });
       setIsLoggedIn(false);

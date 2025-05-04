@@ -48,7 +48,7 @@ function PetShop() {
         return;
       }
       try {
-        const clinicResponse = await axios.get(`http://localhost:5000/api/clinics/${clinicId}`);
+        const clinicResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/${clinicId}`);
         setClinic(clinicResponse.data);
   
         // Extract open and close time from response
@@ -69,7 +69,8 @@ function PetShop() {
           close_time: formatTime(close_time), 
         });
   
-        const servicesResponse = await axios.get(`http://localhost:5000/api/services/clinic/${clinicId}`);
+        const servicesResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/services/clinic/${clinicId}`);
+
         setServices(servicesResponse.data);
       } catch (error) {
         console.error("Error fetching clinic or services:", error);
@@ -82,9 +83,10 @@ function PetShop() {
         try {
           const token = localStorage.getItem("token");
           if (token) {
-            const ownerResponse = await axios.get(`http://localhost:5000/api/owners/${ownerId}`, {
-              headers: { "Authorization": `Bearer ${token}` }
+            const ownerResponse = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/owners/${ownerId}`, {
+              headers: { "Authorization": `Bearer ${token}` },
             });
+          
 
             if (ownerResponse.data?.success && ownerResponse.data?.data) {
               const owner = ownerResponse.data.data;
@@ -112,12 +114,13 @@ function PetShop() {
       }
     
       try {
-        const response = await axios.get(`http://localhost:5000/api/pets/${ownerId}`, {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/pets/${ownerId}`, {
           headers: {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
+        
     
         console.log("✅ Pets fetched successfully:", response.data);
         setPets(response.data);
@@ -175,7 +178,8 @@ function PetShop() {
   
       console.log("🚀 Sending appointment data:", appointmentData);
   
-      const response = await axios.post("http://localhost:5000/api/appointments/book", appointmentData);
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/book`, appointmentData);
+
   
       let appointmentId;
 
@@ -225,11 +229,11 @@ function PetShop() {
   const handleVerifyOTP = async () => {
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/api/appointments/verify-otp", {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/verify-otp`, {
         email,
         otp,
       });
-      
+    
       const appointmentId = response.data.appointment._id; // Use the ID from the response
   
       toast.current.show({ severity: "success", summary: "Success", detail: response.data.message });
@@ -295,9 +299,10 @@ function PetShop() {
       {clinic && step !== 3 && (
         <div className={`shop-info-book ${step === 3 ? 'hide-on-step-3' : ''}`}>
           <img
-            src={`http://localhost:5000${clinic.logo}`}
-            className="shop-logo-book"
-          />
+          src={`${process.env.REACT_APP_API_BASE_URL}${clinic.logo}`}
+          className="shop-logo-book"
+        />
+
           <h3>{clinic.name}</h3>
         </div>
       )}
@@ -523,17 +528,20 @@ function PetShop() {
           )}
           {step === 4 && otpSent && (
             <>
-              <h3>Enter OTP</h3>
-              <input
-                type="text"
-                className="input-field"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter OTP sent to your email"
-              />
-              <button className="action-button" onClick={handleVerifyOTP}>
-                VERIFY OTP & CONFIRM APPOINTMENT
-              </button>
+                <h3 className="otp-title">Enter OTP</h3>
+                <p>Check your email for OTP Verification!</p>
+                <input
+                  type="text"
+                  className="otp-input"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Enter here"
+                />
+                <button className="action-button" onClick={handleVerifyOTP}>
+                  CONFIRM APPOINTMENT
+                </button>
+              
+
             </>
           )}
         </div>

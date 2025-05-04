@@ -20,7 +20,7 @@ const ResetPassword = () => {
   const handleSendReset = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/send-reset", { email });
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/send-reset`, { email });
       setMessage(res.data.message);
       setError("");
       setStep(2);
@@ -32,11 +32,12 @@ const ResetPassword = () => {
   const handleVerifyReset = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/verify-reset", {
+      const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/verify-reset`, {
         email,
         otp,
         newPassword,
       });
+      
       setMessage(res.data.message);
       setError("");
 

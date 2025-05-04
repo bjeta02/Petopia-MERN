@@ -16,7 +16,7 @@ const VerifyAppointment = () => {
   useEffect(() => {
     if (appointmentId) {
       axios
-        .get(`http://localhost:5000/api/appointments/qr/${appointmentId}`)
+        .get(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/qr/${appointmentId}`)
         .then((res) => setAppointment(res.data))
         .catch((err) => console.error(err));
     }
@@ -24,12 +24,13 @@ const VerifyAppointment = () => {
 
   const updateStatus = async (status) => {
     try {
-      await axios.put(`http://localhost:5000/appointments/update/${appointmentId}`, { status });
+      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/appointments/update/${appointmentId}`, { status });
       alert(`Appointment marked as ${status}`);
       navigate("/vet-appointments");
     } catch (error) {
       console.error("Error updating status:", error);
     }
+    
   };
 
   if (!appointment) {

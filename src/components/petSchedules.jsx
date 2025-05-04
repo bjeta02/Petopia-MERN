@@ -36,7 +36,8 @@ const PetSchedules = () => {
   const fetchAppointments = async () => {
     try {
       
-      const response = await axios.get(`http://localhost:5000/api/appointments/${ownerId}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/${ownerId}`);
+
   
       if (!response || !response.data) {
         setError("No appointments found.");

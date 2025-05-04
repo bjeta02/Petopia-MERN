@@ -63,7 +63,7 @@ const TermsAndConditions = () => {
 
       <h2>10. Contact Information</h2>
       <p>
-        If you have any questions about these Terms, please contact us at lunox24722@gmail.com.
+        If you have any questions about these Terms, please contact us at petopia144@gmail.com.
       </p>
     </div>
   );

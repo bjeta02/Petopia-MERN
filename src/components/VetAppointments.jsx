@@ -52,11 +52,12 @@ const VetAppointments = () => {
   
     try {
       const url =
-        role === "admin"
-          ? `http://localhost:5000/api/appointments/` // Fetch all appointments
-          : `http://localhost:5000/api/appointments/clinics/${clinicId}`; // Fetch only clinic-specific ones
-  
-      console.log("🔍 Fetching appointments from:", url);
+  role === "admin"
+    ? `${process.env.REACT_APP_API_BASE_URL}/api/appointments/` // Fetch all appointments
+    : `${process.env.REACT_APP_API_BASE_URL}/api/appointments/clinics/${clinicId}`; // Fetch only clinic-specific ones;
+
+console.log("🔍 Fetching appointments from:", url);
+
       
       
       const response = await axios.get(url);
@@ -84,12 +85,13 @@ const VetAppointments = () => {
   const fetchServices = async () => {
     try {
       const url =
-        role === "admin"
-          ? `http://localhost:5000/api/services` // Fetch all services for admin
-          : `http://localhost:5000/api/services/clinic/${clinicId}`; // Fetch services only for this clinic
-  
-      const response = await axios.get(url);
-      const services = response.data;
+  role === "admin"
+    ? `${process.env.REACT_APP_API_BASE_URL}/api/services` // Fetch all services for admin
+    : `${process.env.REACT_APP_API_BASE_URL}/api/services/clinic/${clinicId}`; // Fetch services only for this clinic;
+
+const response = await axios.get(url);
+const services = response.data;
+
   
       const formattedServices = services.map(service => ({
         label: service.name,   // 💬 Still using name for dropdown
@@ -177,7 +179,7 @@ const VetAppointments = () => {
         const petId = selectedAppointment.pet_id; // Get the pet ID from the selected appointment
 
         // Update the pet's medical history
-        await axios.put(`http://localhost:5000/api/pets/update/${petId}`, {
+        await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/pets/update/${petId}`, {
           medical_history: medicalConcern // Append the medical concern
         });
       } else if (status === "Cancelled") {
@@ -186,7 +188,8 @@ const VetAppointments = () => {
         updateData.completedAt = null;
       }
 
-      await axios.put(`http://localhost:5000/api/appointments/update/${id}`, updateData);
+      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/update/${id}`, updateData);
+
       showToast("success", "Updated", `Appointment marked as ${status}.`);
       fetchAppointments();
     } catch (error) {
@@ -238,7 +241,8 @@ const VetAppointments = () => {
       }
 
         // Send the update request to the backend
-        const response = await axios.put(`http://localhost:5000/api/appointments/update/${id}`, updateData);
+        const response = await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/update/${id}`, updateData);
+
 
         console.log("🟢 Response from backend:", response.data);
         showToast("success", "Updated", "Appointment updated successfully.");

@@ -78,7 +78,9 @@ const App = () => {
         {/* Authentication Routes */}
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
+          
           <Route path="/register" element={<Register />} />
+          
           <Route path="/google-auth-success" element={<GoogleAuthSuccess />} />
         </Route>
 
@@ -88,7 +90,9 @@ const App = () => {
         <Route path="/reset-password" element={<ResetPassword />} />
 
         <Route path="/findavet" element={<Findavet />} />
+
         <Route path="/shops" element={<Shops />} />
+        
         <Route path="/petshop" element={<PetShop />} />
         <Route path="/shopprofile" element={<ShopProfile />} />
         <Route path="/otp" element={<OtpPage />} />

@@ -15,6 +15,20 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreePrivacy, setAgreePrivacy] = useState(false);
 
+  const handleLoginClick = () => {
+    navigate('/login'); // Redirect to the dashboard page
+
+  };
+
+  const handleTACClick = () => {
+    navigate('/terms-services'); // Redirect to the dashboard page
+
+  };
+  const handlePAClick = () => {
+    navigate('/privacy-policy'); // Redirect to the dashboard page
+
+  };
+
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const emailParam = params.get("email");
@@ -32,13 +46,14 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/owners/register-with-otp", {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/owners/register-with-otp`, {
         firstname,
         lastname,
         email,
         password,
-        role: "owner"
+        role: "owner",
       });
+      
 
       alert(response.data.message);
       navigate(`/otp?email=${encodeURIComponent(email)}`);
@@ -121,8 +136,9 @@ const Register = () => {
               onChange={(e) => setAgreePrivacy(e.target.checked)}
               required
             />
-            <label htmlFor="privacy">
-              By signing up you agree to our <a href="/terms-services" target="_blank">Terms and conditions</a> and <a href="/privacy-policy" target="_blank">Privacy policy</a>.
+            <label htmlFor="privacy"> By signing up you agree to our  
+              <button className="button-TAC" onClick={handleTACClick} target="_blank"> Terms and conditions </button> 
+              and <button className="button-TAC" onClick={handlePAClick} target="_blank"> Privacy policy </button>.
             </label>
           </div>
 
@@ -136,7 +152,12 @@ const Register = () => {
         </form>
 
         <div className="register-link">
-          <p>Already have an account? <a href="login">Login</a></p>
+        <p className="login-text">
+    Don't have an account?
+    <button className="button-reg" onClick={handleLoginClick}>
+      Login
+    </button>
+    </p>
         </div>
       </div>
     </div>

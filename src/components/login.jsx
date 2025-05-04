@@ -15,13 +15,18 @@ const Login = () => {
   const navigate = useNavigate();
   const { role, setUserInfo } = useAuth(); // Ensure setUser Info is available
 
+  const handleRegisterClick = () => {
+    navigate('/register'); // Redirect to the dashboard page
+
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
   
     try {
-      const response = await axios.post(`http://localhost:5000/api/owners/login`, {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/owners/login`, {
         email: username,
         password: password,
       });
@@ -60,7 +65,7 @@ const Login = () => {
 
   // ✅ Handle Google login
   const handleGoogleLogin = () => {
-    window.open("http://localhost:5000/auth/google", "_self");
+    window.open(`${process.env.REACT_APP_API_BASE_URL}/auth/google`, "_self");
   };
 
   useEffect(() => {
@@ -74,6 +79,11 @@ const Login = () => {
       window.history.replaceState({}, document.title, "/login");
     }
   }, []);
+
+  const handleResetPWClick = () => {
+    navigate('/reset-password'); 
+
+  };
 
   return (
     <div className="center-container">
@@ -109,17 +119,21 @@ const Login = () => {
           </div>
 
           {/* Remember Me and Forgot Password in two rows */}
-          <div className="remember-forgot-container">
-            <div className="forgot-password-link">
-              <a href="/reset-password">Forgot Password?</a>
-            </div>
-            
-          </div>
+          
 
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+
+        <div className="remember-forgot-container">
+            <div className="forgot-password-link">
+            <button className="button-resetpw" onClick={handleResetPWClick}>
+      Forgot Password?
+    </button>
+            </div>
+            
+          </div>
 
         {/* Or Login With Separator */}
         <div className="or-separator">
@@ -134,8 +148,16 @@ const Login = () => {
         </div>
 
         <div className="login-link">
-          <p>Don't have an account? <a href="register">Register</a></p>
-        </div>
+  <p className="login-text">
+    Don't have an account?
+    <button className="button-reg" onClick={handleRegisterClick}>
+      Sign up
+    </button>
+  </p>
+</div>
+
+
+
       </div>
     </div>
   );

@@ -68,7 +68,8 @@
     useEffect(() => {
       const fetchData = async () => {
         if (role === "clinic" && clinicId) {
-          const response = await axios.get(`http://localhost:5000/api/clinics/${clinicId}`);
+          const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/${clinicId}`);
+
           setClinic(response.data);
           setFormData({
             _id: response.data._id,
@@ -118,7 +119,8 @@
 
     const fetchAllClinics = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/clinics");
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/clinics`);
+
         const clinics = Array.isArray(res.data.clinics) ? res.data.clinics : [];
         setAllClinics(clinics);
       } catch (err) {
@@ -149,14 +151,14 @@
       formData.append("logo", file);
   
       try {
-          const response = await fetch(`http://localhost:5000/api/clinics/upload-logo/${clinicId}`, {
-              method: "POST",
-              headers: {
-                  Authorization: `Bearer ${token}`,
-              },
-              body: formData,
-          });
-  
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/upload-logo/${clinicId}`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData, // the form data you're sending
+        });
+        
           if (!response.ok) throw new Error("Failed to upload logo");
   
           const result = await response.json();
@@ -209,7 +211,8 @@
     const handleSave = async () => {
       try {
           // Save clinic profile updates
-          await axios.put(`http://localhost:5000/api/clinics/update/${formData._id}`, formData);
+          await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/update/${formData._id}`, formData);
+
   
           // Prepare only valid, new services (with a name, no _id)
           const newServices = formData.services
@@ -219,16 +222,18 @@
                   return { ...rest, clinic_id: clinic._id };
               });
   
-          if (newServices.length > 0) {
-              await axios.post("http://localhost:5000/api/services/add", newServices);
-          }
+              if (newServices.length > 0) {
+                await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/services/add`, newServices);
+            }
+            
   
-          const existingServices = formData.services
-              .filter(service => service._id)
-              .map(service => {
-                  const { _id, ...rest } = service;
-                  return axios.put(`http://localhost:5000/api/services/update/${_id}`, rest);
-              });
+            const existingServices = formData.services
+            .filter(service => service._id)
+            .map(service => {
+                const { _id, ...rest } = service;
+                return axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/services/update/${_id}`, rest);
+            });
+        
   
           await Promise.all(existingServices);
   
@@ -256,7 +261,8 @@
 
     const handleStatusUpdate = async (id, status) => {
       try {
-        await axios.put(`http://localhost:5000/api/clinics/update/${id}`, { status });
+        await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/update/${id}`, { status });
+
         toast.current.show({ severity: "success", summary: "Updated", detail: "Status updated successfully" });
         fetchAllClinics(); // Refresh the clinic list
       } catch (error) {
@@ -309,12 +315,13 @@
 
     const handleDeleteClinic = async (clinicId) => {
       try {
-        await axios.delete(`http://localhost:5000/api/clinics/delete/${clinicId}`);
-        toast.current.show({
-          severity: "success",
-          summary: "Deleted",
-          detail: "Clinic deleted successfully"
-        });
+        await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/delete/${clinicId}`);
+      toast.current.show({
+        severity: "success",
+        summary: "Deleted",
+        detail: "Clinic deleted successfully"
+      });
+
         fetchAllClinics(); // Refresh the clinic list
       } catch (error) {
         console.error("Error deleting clinic:", error);
@@ -340,7 +347,8 @@
           formDataToSend.append(key, newClinicData[key]);
         });
     
-        await axios.post("http://localhost:5000/api/clinics/register", formDataToSend);
+        await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/register`, formDataToSend);
+
         toast.current.show({
           severity: "success",
           summary: "Success",
@@ -415,10 +423,11 @@
                     body={(rowData) => (
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <img 
-                          src={`http://localhost:5000${rowData.logo}`} 
-                          alt={`${rowData.name} Logo`} 
-                          style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '50%', marginRight: '10px' }} // Adjust size as needed
-                        />
+  src={`${process.env.REACT_APP_API_BASE_URL}${rowData.logo}`} 
+  alt={`${rowData.name} Logo`} 
+  style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '50%', marginRight: '10px' }} 
+/>
+
                         <span>{rowData.name}</span>
                       </div>
                     )}
@@ -513,7 +522,8 @@
     const handleDeleteService = async (service) => {
       if (!service._id) return;
       try {
-        await axios.delete(`http://localhost:5000/api/services/delete/${service._id}`);
+        await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/api/services/delete/${service._id}`);
+
         setFormData(prev => ({
           ...prev,
           services: prev.services.filter(s => s._id !== service._id)
@@ -545,14 +555,16 @@
   
         if (selectedService) {
           // Update existing service
-          await axios.put(`http://localhost:5000/api/services/update/${selectedService._id}`, serviceData);
+          await axios.put(`${process.env.REACT_APP_API_BASE_URL}/api/services/update/${selectedService._id}`, serviceData);
         } else {
           // Add new service
-          await axios.post(`http://localhost:5000/api/services/add`, [serviceData]); // Wrap in an array
+          await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/services/add`, [serviceData]); // Wrap in an array
         }
+        
   
         // Refresh services
-        const updatedClinic = await axios.get(`http://localhost:5000/api/clinics/${clinicId}`);
+        const updatedClinic = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/${clinicId}`);
+
         setFormData(updatedClinic.data);
   
         toast.current.show({ severity: "success", summary: "Success", detail: "Service saved successfully" });
@@ -572,11 +584,12 @@
       <Card className="p-4 card-logo">
         <div className="card-logo-wrapper">
           <div className="profile-image-container">
-            <img
-              src={`http://localhost:5000${clinic.logo}`}
-              alt="Clinic Logo"
-              className="cliniclogo"
-            />
+          <img
+  src={`${process.env.REACT_APP_API_BASE_URL}${clinic.logo}`}
+  alt="Clinic Logo"
+  className="cliniclogo"
+/>
+
             <i
               className="pi pi-camera avatar-icon"
               onClick={() => fileInputRef.current.click()}

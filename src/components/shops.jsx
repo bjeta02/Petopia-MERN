@@ -85,12 +85,13 @@ useEffect(() => {
       // 🔁 Get selected service from localStorage (before filtering)
       const storedService = localStorage.getItem('selectedService');
 
-      const response = await axios.get("http://localhost:5000/api/clinics", {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/clinics`, {
         params: {
           location: selectedLocation,
           search: debouncedSearchQuery,
         },
       });
+
 
       if (!Array.isArray(response.data.clinics)) {
         console.error("Invalid response format, expected array of clinics.");
@@ -329,10 +330,11 @@ useEffect(() => {
               style={{ cursor: "pointer" }} 
             >
               <div className="shop-info">
-                <img
-                  src={`http://localhost:5000${shop.logo}`} 
-                  className="shop-logo" 
-                />
+              <img
+  src={`${process.env.REACT_APP_API_BASE_URL}${shop.logo}`}
+  className="shop-logo"
+/>
+
                 <div className="shop-text">
                   <h3>{shop.name}</h3>
                   <p>

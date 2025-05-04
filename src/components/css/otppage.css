@@ -8,7 +8,7 @@
     min-height: 100vh;
     background-color: #f3f4f6; /* Light gray background */
     padding: 20px;
-    background: linear-gradient(135deg, #3988d6, #6038b6);
+    background: linear-gradient(135deg, #26d3b6, #05a058);
   }
   
   /* Bigger container */
@@ -56,7 +56,7 @@
   /* Verify Button */
   .verify-btn {
     width: 50%;
-    background: #2563eb;
+    background: #0b906f;
     color: white;
     font-size: 1.3rem;
     padding: 15px;

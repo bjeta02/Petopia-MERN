@@ -42,9 +42,10 @@ export default function PetAppointments() {
     const fetchPets = async () => {
         const token = localStorage.getItem("token");
         try {
-            const response = await fetch(`http://localhost:5000/api/pets/${ownerId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/${ownerId}`, {
                 headers: { "Authorization": `Bearer ${token}` },
-            });
+              });
+              
             const data = await response.json();
             setPets(data);
         } catch (error) {
@@ -55,9 +56,10 @@ export default function PetAppointments() {
     const fetchAppointments = async () => {
         const token = localStorage.getItem("token");
         try {
-            const response = await fetch(`http://localhost:5000/api/appointments/${ownerId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/${ownerId}`, {
                 headers: { "Authorization": `Bearer ${token}` },
-            });
+              });
+              
             const data = await response.json();
     
             // Sort by newest appointment first
@@ -66,7 +68,8 @@ export default function PetAppointments() {
             // Fetch clinic details for each appointment
             const appointmentsWithClinics = await Promise.all(sorted.map(async (appointment) => {
                 try {
-                    const clinicResponse = await fetch(`http://localhost:5000/api/clinics/${appointment.clinic_id?._id}`);
+                    const clinicResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/${appointment.clinic_id?._id}`);
+
                     if (!clinicResponse.ok) {
                         const errorData = await clinicResponse.json();
                         console.error("Error fetching clinic:", errorData.message);
@@ -133,7 +136,8 @@ export default function PetAppointments() {
 
     const clinicBodyTemplate = (rowData) => {
         const logoPath = rowData.clinic?.logo;
-        const logoUrl = logoPath ? `http://localhost:5000${logoPath}` : "/images/placeholder.jpg";
+        const logoUrl = logoPath ? `${process.env.REACT_APP_API_BASE_URL}${logoPath}` : "/images/placeholder.jpg";
+
 
         return (
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -155,7 +159,8 @@ export default function PetAppointments() {
         }
     
         const avatarPath = rowData.pet_id.avatar; // Access avatar from pet_id
-        const avatarUrl = avatarPath ? `http://localhost:5000${avatarPath}` : "/images/placeholder.jpg";
+        const avatarUrl = avatarPath ? `${process.env.REACT_APP_API_BASE_URL}${avatarPath}` : "/images/placeholder.jpg";
+
     
         const petName = rowData.pet_id.name || "Unknown Pet";
         const petType = rowData.pet_id.type || "Unknown Type"; // Add this line
@@ -235,11 +240,7 @@ export default function PetAppointments() {
                         />
                     </div>
     
-                    {/* Filter Icon */}
-                    <div className="filter-icon">
-                        <FilterIcon size={24} />
-                    </div>
-    
+                    
                     {/* Filter Dropdowns */}
                     <div>
                         <Dropdown

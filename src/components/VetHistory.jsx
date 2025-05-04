@@ -35,9 +35,10 @@
     const fetchHistory = async () => {
       try {
         const url =
-          role === "admin"
-            ? `http://localhost:5000/api/appointments/`
-            : `http://localhost:5000/api/appointments/clinics/${clinicId}`;
+  role === "admin"
+    ? `${process.env.REACT_APP_API_BASE_URL}/api/appointments/` // For admin, fetch all appointments
+    : `${process.env.REACT_APP_API_BASE_URL}/api/appointments/clinics/${clinicId}`; // For clinic, fetch clinic-specific appointments
+
 
         const response = await axios.get(url);
 
@@ -63,10 +64,10 @@
 
     const fetchServices = async () => {
       try {
-        const url =
-          role === "admin"
-            ? `http://localhost:5000/api/services` // Fetch all services for admin
-            : `http://localhost:5000/api/services/clinic/${clinicId}`; // Fetch services only for this clinic
+        const url = role === "admin"
+  ? `${process.env.REACT_APP_API_BASE_URL}/api/services` // Fetch all services for admin
+  : `${process.env.REACT_APP_API_BASE_URL}/api/services/clinic/${clinicId}`; // Fetch services only for this clinic
+
     
         const response = await axios.get(url);
         const services = response.data;

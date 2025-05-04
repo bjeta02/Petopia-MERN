@@ -8,6 +8,48 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Adds some space between the filter elements */
+    justify-content: flex-start; /* Aligns items to the left */
+}
+/* Ensure uniform height for dropdowns and search input */
+.search-input,
+.p-dropdown,
+.p-inputtext {
+    height: 40px; /* Desired consistent height */
+    font-size: 14px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+/* Align content vertically inside dropdowns */
+.p-dropdown-label {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Adjust dropdown arrow alignment */
+.p-dropdown-trigger {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.filters-container .filter-dropdown {
+    width: 200px; /* You can adjust the width as needed */
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-right: 16px; /* Optional, adds space between the search bar and dropdowns */
+    min-width: 250px; /* Minimum width */
+    max-width: 400px; /* Optional: to prevent it from being too wide */
+}
 /* Status label styles */
 .status-tag {
     padding: 3px 10px;

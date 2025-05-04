@@ -5,7 +5,7 @@ const PrivacyPolicy = () => {
   return (
     <div className="terms-and-conditions" style={{marginTop: "100px"}}>
       <h1>Privacy Policy</h1>
-      <p><strong>Last updated: [Date]</strong></p>
+      <p><strong>Last updated: April 28, 2025</strong></p>
 
       <p>
         At Petopia ("we", "our", "us"), we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services (collectively, the "Services"). Please read this policy carefully. If you do not agree with the terms of this policy, please do not access the Services.

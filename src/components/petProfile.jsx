@@ -50,12 +50,13 @@ export default function PetProfile() {
         if (!token) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/pets/${ownerId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/${ownerId}`, {
                 headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            });
+                  "Authorization": `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              });
+              
             if (!response.ok) throw new Error("Failed to fetch pets");
             const data = await response.json();
             setPets(data);
@@ -101,11 +102,12 @@ export default function PetProfile() {
         }
     
         try {
-            const response = await fetch("http://localhost:5000/api/pets/register", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/register`, {
                 method: "POST",
                 headers: { "Authorization": `Bearer ${token}` },
-                body: formData
-            });
+                body: formData,
+              });
+              
     
             if (!response.ok) throw new Error("Failed to add pet");
     
@@ -138,14 +140,15 @@ export default function PetProfile() {
         }
     
         try {
-            const response = await fetch(`http://localhost:5000/api/pets/update/${pet._id}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/update/${pet._id}`, {
                 method: "PUT",
                 headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
+                  "Authorization": `Bearer ${token}`,
+                  "Content-Type": "application/json",
                 },
-                body: JSON.stringify(updatedPetData)
-            });
+                body: JSON.stringify(updatedPetData),
+              });
+              
     
             if (!response.ok) throw new Error("Failed to update pet");
     
@@ -174,13 +177,14 @@ export default function PetProfile() {
         if (!token) return;
 
         try {
-            const response = await fetch(`http://localhost:5000/api/pets/delete/${petToDelete._id}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/delete/${petToDelete._id}`, {
                 method: "DELETE",
                 headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            });
+                  "Authorization": `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                },
+              });
+              
 
             if (!response.ok) throw new Error("Failed to delete pet");
 
@@ -201,11 +205,12 @@ export default function PetProfile() {
         formData.append("avatar", file);
 
         try {
-            const response = await fetch(`http://localhost:5000/api/pets/upload-pet-avatar/${petId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/upload-pet-avatar/${petId}`, {
                 method: "POST",
                 headers: { "Authorization": `Bearer ${token}` },
-                body: formData
-            });
+                body: formData,
+              });
+              
 
             if (!response.ok) throw new Error("Failed to upload avatar");
 
@@ -228,17 +233,18 @@ export default function PetProfile() {
                 {pets.map((pet) => (
                     <Card key={pet._id} className="pet-card">
                         <div className="profile-header">
-                            <img
-                                src={
-                                    pet.avatar && pet.avatar.startsWith("http")
-                                        ? pet.avatar
-                                        : pet.avatar
-                                        ? `http://localhost:5000${pet.avatar}`
-                                        : "https://cdn-icons-png.flaticon.com/512/847/847969.png"
-                                }
-                                alt="Profile"
-                                className="pet-avatar"
+                        <img
+                            src={
+                                pet.avatar && pet.avatar.startsWith("http")
+                                ? pet.avatar
+                                : pet.avatar
+                                ? `${process.env.REACT_APP_API_BASE_URL}${pet.avatar}`
+                                : "https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                            }
+                            alt="Profile"
+                            className="pet-avatar"
                             />
+
                             <div className="pet-info">
                                 <h4 className="font-semibold text-lg">{pet.name}</h4>
                                 <p className="text-gray-500 text-sm">{pet.breed || "Unknown Breed"}</p>
@@ -269,15 +275,16 @@ export default function PetProfile() {
                         <label>Profile Photo</label>
                         <div className="pet-avatar-upload">
                             <div className="pet-profile-image-container">
-                                <img
-                                    src={imagePreview || (pet.avatar && pet.avatar.startsWith("http")
-                                        ? pet.avatar
-                                        : pet.avatar
-                                        ? `http://localhost:5000${pet.avatar}`
-                                        : "https://cdn-icons-png.flaticon.com/512/847/847969.png")}
-                                    alt="Profile"
-                                    className="dialog-pet-avatar"
-                                />
+                            <img
+                            src={imagePreview || (pet.avatar && pet.avatar.startsWith("http")
+                                ? pet.avatar
+                                : pet.avatar
+                                ? `${process.env.REACT_APP_API_BASE_URL}${pet.avatar}`
+                                : "https://cdn-icons-png.flaticon.com/512/847/847969.png")}
+                            alt="Profile"
+                            className="dialog-pet-avatar"
+                            />
+
                                 <i className="pi pi-camera avatar-icon" onClick={() => fileInputRef.current.click()}></i>
                             </div>
                             <input type="file" accept="image/*" ref={fileInputRef} className="pet-hidden-file-input" onChange={handleFileChange} />

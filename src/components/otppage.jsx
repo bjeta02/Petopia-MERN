@@ -30,10 +30,14 @@ const OtpPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/owners/verify-otp", {
-        email,
-        otp,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/api/owners/verify-otp`,
+        {
+          email,
+          otp,
+        }
+      );
+      
 
       alert(response.data.message);
       navigate("/login"); // Redirect after successful verification
@@ -50,7 +54,7 @@ const OtpPage = () => {
   const handleResend = async () => {
     if (canResend) {
       try {
-        await axios.post("http://localhost:5000/api/owners/resend-otp", { email });
+        await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/owners/resend-otp`, { email });
         alert("New OTP sent to your email.");
         setTimer(300);
         setCanResend(false);
@@ -58,6 +62,7 @@ const OtpPage = () => {
         console.error("OTP resend error:", error.message);
         alert("Failed to resend OTP. Try again later.");
       }
+      
     }
   };
 

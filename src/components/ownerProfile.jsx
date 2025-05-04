@@ -23,13 +23,14 @@ export default function OwnerProfile() {
         const token = localStorage.getItem("token");
         if (token && ownerId) {
             try {
-                const response = await fetch(`http://localhost:5000/api/owners/${ownerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/owners/${ownerId}`, {
                     method: "GET",
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                      "Content-Type": "application/json",
                     },
-                });
+                  });
+                  
 
                 if (!response.ok) throw new Error("Failed to fetch owner data");
 
@@ -53,14 +54,15 @@ export default function OwnerProfile() {
         const token = localStorage.getItem("token");
         if (token) {
             try {
-                const response = await fetch(`http://localhost:5000/api/owners/update/${ownerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/owners/update/${ownerId}`, {
                     method: "PUT",
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                      "Content-Type": "application/json",
                     },
                     body: JSON.stringify(owner),
-                });
+                  });
+                  
 
                 if (!response.ok) throw new Error("Failed to update owner information");
 
@@ -89,13 +91,14 @@ export default function OwnerProfile() {
         formData.append("avatar", file);
     
         try {
-            const response = await fetch(`http://localhost:5000/api/owners/upload-avatar/${ownerId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/owners/upload-avatar/${ownerId}`, {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                  Authorization: `Bearer ${token}`,
                 },
                 body: formData,
-            });
+              });
+              
     
             if (!response.ok) throw new Error("Failed to upload avatar");
     
@@ -124,12 +127,13 @@ export default function OwnerProfile() {
         <div className="profile-container">
             <div className="profile-header">
                 <div className="profile-image-container">
-                    <img
-                        src={`http://localhost:5000${owner.avatar}`}
-                        alt="Profile"
-                        className="profile-avatar"
-                        onClick={() => fileInputRef.current.click()}
-                    />
+                <img
+                src={`${process.env.REACT_APP_API_BASE_URL}${owner.avatar}`}
+                alt="Profile"
+                className="profile-avatar"
+                onClick={() => fileInputRef.current.click()}
+                />
+
                     <i className="pi pi-camera avatar-icon" onClick={() => fileInputRef.current.click()}></i>
                     <input
                         type="file"

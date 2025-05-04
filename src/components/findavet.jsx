@@ -10,13 +10,19 @@ function Findavet() {
   const [showDropdown, setShowDropdown] = useState(false); // State to control dropdown visibility
   const navigate = useNavigate();
 
+  const handleShopsClick = () => {
+    navigate('/shops'); // Redirect to the register page
+
+  };
+
   useEffect(() => {
     let isMounted = true; // Flag to track whether the component is still mounted
   
     // Fetch available services from the backend
     const fetchServices = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/services"); // Assuming an endpoint for services
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/services`);
+ // Assuming an endpoint for services
         if (isMounted) { // Only update state if component is still mounted
           const uniqueServices = [...new Set(response.data.map(service => service.name))]; // Remove duplicates
           setServices(uniqueServices);
@@ -94,9 +100,8 @@ function Findavet() {
             )}
           </div>
 
-          <a href="/shops" className="browse-shop">
-            <p>Browse Shops</p>
-          </a>
+            
+          <button className="browse-shop" onClick={handleShopsClick}>Browse Shops</button>
 
           <div className="invisible-box">
             <div className="text-container">

@@ -45,14 +45,14 @@ export default function UserProfilePage() {
         const token = localStorage.getItem("token");
         if (token && ownerId) {
             try {
-                const response = await fetch(`http://localhost:5000/api/owners/${ownerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/owners/${ownerId}`, {
                     method: "GET",
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                      "Content-Type": "application/json",
                     },
-                });
-
+                  });
+                  
                 if (!response.ok) throw new Error("Failed to fetch owner data");
 
                 const result = await response.json();
@@ -69,13 +69,14 @@ export default function UserProfilePage() {
         const token = localStorage.getItem("token");
         if (token) {
             try {
-                const response = await fetch(`http://localhost:5000/api/pets/${ownerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/${ownerId}`, {
                     method: "GET",
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                      "Content-Type": "application/json",
                     },
-                });
+                  });
+                  
 
                 if (!response.ok) throw new Error("Failed to fetch pets");
 
@@ -91,13 +92,14 @@ export default function UserProfilePage() {
         const token = localStorage.getItem("token");
         if (token && ownerId) {
             try {
-                const response = await fetch(`http://localhost:5000/api/appointments/${ownerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/appointments/${ownerId}`, {
                     method: "GET",
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                      "Content-Type": "application/json",
                     },
-                });
+                  });
+                  
 
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
@@ -127,14 +129,15 @@ export default function UserProfilePage() {
         const token = localStorage.getItem("token");
         if (token) {
             try {
-                const response = await fetch(`http://localhost:5000/api/owners/update/${ownerId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/owners/update/${ownerId}`, {
                     method: "PUT",
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                      "Content-Type": "application/json",
                     },
                     body: JSON.stringify(owner),
-                });
+                  });
+                  
 
                 if (!response.ok) throw new Error("Failed to update owner information");
 
@@ -168,14 +171,15 @@ export default function UserProfilePage() {
         const token = localStorage.getItem("token");
         if (token && ownerId) {
             try {
-                const response = await fetch("http://localhost:5000/api/pets/register", {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/register`, {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                      "Content-Type": "application/json",
                     },
                     body: JSON.stringify({ ...pet, owner_id: ownerId }),
-                });
+                  });
+                  
 
                 if (!response.ok) throw new Error("Failed to add pet");
 
@@ -212,13 +216,14 @@ export default function UserProfilePage() {
         const token = localStorage.getItem("token");
         if (token) {
             try {
-                const response = await fetch(`http://localhost:5000/api/pets/delete/${rowData._id}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/delete/${rowData._id}`, {
                     method: "DELETE",
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                      "Content-Type": "application/json",
                     },
-                });
+                  });
+                  
 
                 if (!response.ok) throw new Error("Failed to delete pet");
 
@@ -236,14 +241,15 @@ export default function UserProfilePage() {
         const token = localStorage.getItem("token");
         if (token && pet._id) {
             try {
-                const response = await fetch(`http://localhost:5000/api/pets/update/${pet._id}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/pets/update/${pet._id}`, {
                     method: "PUT",
                     headers: {
-                        "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
+                      "Authorization": `Bearer ${token}`,
+                      "Content-Type": "application/json",
                     },
                     body: JSON.stringify(pet),
-                });
+                  });
+                  
 
                 if (!response.ok) throw new Error("Failed to update pet");
 

@@ -24,7 +24,12 @@ import './cron/checkAppointment.js';
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+    origin: 'https://epetopia.site', // your frontend URL
+    credentials: true, // if using cookies or sessions
+  }));
+  
 app.use(session({
     secret: process.env.SESSION_SECRET, // Change this to a secure key
     resave: false,

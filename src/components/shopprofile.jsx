@@ -21,7 +21,8 @@ function ShopProfile() {
   useEffect(() => {
     const fetchShop = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/clinics/${clinicId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/clinics/${clinicId}`);
+
         setShop(response.data);
       } catch (error) {
         console.error("Error fetching clinic details:", error);
@@ -60,11 +61,12 @@ function ShopProfile() {
           {/* Left Side: Logo & Info */}
           <div className="profile-shop-left">
             <div className="shop-profile-header">
-              <img
-                src={shop.logo ? `http://localhost:5000${shop.logo}` : "/placeholder.png"}
-                alt="Clinic Logo"
-                className="shop-profile-logo"
-              />
+            <img
+  src={shop.logo ? `${process.env.REACT_APP_API_BASE_URL}${shop.logo}` : "/placeholder.png"}
+  alt="Clinic Logo"
+  className="shop-profile-logo"
+/>
+
               <div className="shop-profile-details">
                 <h1>{shop.name}</h1>
                 <p className="profile-icon">

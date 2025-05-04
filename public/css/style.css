@@ -166,11 +166,11 @@ hr {
   font-family: "Raleway", sans-serif;
   text-transform: uppercase;
   color: #fff;
-  background: #19ad92;
+  background: #1ab565;
   padding: 14px 34px;
   letter-spacing: 1px;
   margin: 0;
-  font-size: 15px;
+  font-size: 25px !important;
   font-weight: 500;
   border-radius: 25px;
   transition: all 0.5s linear;
@@ -183,7 +183,7 @@ hr {
 .btn-custom.active {
   color: #fff;
   background-image: none;
-  background-color: #6372ff;
+  background: #0b8d4a !important;
 }
 .btn:active,
 .btn.active {
